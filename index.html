@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management System</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .events-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .event {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .event h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .event p {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .event-details {
+            display: none;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .btn-show {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .btn-show:hover {
+            background-color: #5568d3;
+        }
+
+        .btn-register {
+            background-color: #48bb78;
+            color: white;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn-register:hover {
+            background-color: #38a169;
+        }
+
+        .event.active {
+            background: #e6f2ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Event Management System</h1>
+        <div class="events-wrapper">
+            <!-- Event 1 -->
+            <div class="event">
+                <h3>Web Development Workshop</h3>
+                <p>📅 March 15, 2026</p>
+                <div class="event-details">
+                    <strong>Description:</strong> Learn modern web development with HTML, CSS, and JavaScript.
+                    <br><strong>Location:</strong> Tech Building, Room 101
+                    <br><strong>Duration:</strong> 3 hours
+                    <br><strong>Instructor:</strong> John Smith
+                    <button class="btn btn-register">Register</button>
+                </div>
+                <button class="btn btn-show">Show Details</button>
+            </div>
+
+            <!-- Event 2 -->
+            <div class="event">
+                <h3>Data Science Masterclass</h3>
+                <p>📅 March 18, 2026</p>
+                <div class="event-details">
+                    <strong>Description:</strong> Advanced techniques in data analysis and machine learning.
+                    <br><strong>Location:</strong> Science Center, Lab 205
+                    <br><strong>Duration:</strong> 4 hours
+                    <br><strong>Instructor:</strong> Dr. Emma Wilson
+                    <button class="btn btn-register">Register</button>
+                </div>
+                <button class="btn btn-show">Show Details</button>
+            </div>
+
+            <!-- Event 3 -->
+            <div class="event">
+                <h3>Business Networking Summit</h3>
+                <p>📅 March 22, 2026</p>
+                <div class="event-details">
+                    <strong>Description:</strong> Network with industry professionals and explore career opportunities.
+                    <br><strong>Location:</strong> Convention Center, Grand Hall
+                    <br><strong>Duration:</strong> 5 hours
+                    <br><strong>Instructor:</strong> Michael Johnson
+                    <button class="btn btn-register">Register</button>
+                </div>
+                <button class="btn btn-show">Show Details</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Show/Hide Details button functionality
+            $(".btn-show").click(function() {
+                // Get the event details div
+                let eventDetails = $(this).closest('.event').find('.event-details');
+                
+                // Toggle the details with slideToggle effect
+                eventDetails.slideToggle(400);
+                
+                // Toggle button text and change background color
+                if ($(this).text() === "Show Details") {
+                    $(this).text("Hide Details");
+                    // Change background color of the selected event
+                    $(this).closest('.event').css('background-color', '#e6f2ff');
+                    // Highlight the h3 element
+                    $(this).closest('.event').find('h3').css({
+                        'color': '#667eea',
+                        'font-weight': 'bold'
+                    });
+                } else {
+                    $(this).text("Show Details");
+                    // Revert background color
+                    $(this).closest('.event').css('background-color', 'white');
+                    // Revert h3 style
+                    $(this).closest('.event').find('h3').css({
+                        'color': '#333',
+                        'font-weight': 'normal'
+                    });
+                }
+                
+                // Retrieve and display the Event Title
+                let eventTitle = $(this).closest('.event').find('h3').text();
+                alert("Selected Event: " + eventTitle);
+            });
+
+            // Register button functionality
+            $(".btn-register").click(function() {
+                // Get the event title
+                let eventTitle = $(this).closest('.event').find('h3').text();
+                
+                // Redirect to registration form with event name as query parameter
+                window.location.href = "register.html?event=" + encodeURIComponent(eventTitle);
+            });
+        });
+    </script>
+</body>
+</html>
